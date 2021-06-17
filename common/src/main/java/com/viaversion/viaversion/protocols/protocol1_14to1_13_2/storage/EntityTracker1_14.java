@@ -21,13 +21,16 @@ import com.viaversion.viaversion.api.connection.UserConnection;
 import com.viaversion.viaversion.api.minecraft.entities.Entity1_14Types;
 import com.viaversion.viaversion.data.entity.EntityTrackerBase;
 import it.unimi.dsi.fastutil.ints.Int2ObjectMap;
-import space.vectrix.flare.fastutil.Int2ObjectSyncMap;
+import java.util.concurrent.ConcurrentMap;
+import java.util.concurrent.ConcurrentHashMap;
 
 public class EntityTracker1_14 extends EntityTrackerBase {
-    private final Int2ObjectMap<Byte> insentientData = Int2ObjectSyncMap.hashmap();
+// Solar start - remove flare library
+    private final ConcurrentMap<Integer, Byte> insentientData = new ConcurrentHashMap<>();
     // 0x1 = sleeping, 0x2 = riptide
-    private final Int2ObjectMap<Byte> sleepingAndRiptideData = Int2ObjectSyncMap.hashmap();
-    private final Int2ObjectMap<Byte> playerEntityFlags = Int2ObjectSyncMap.hashmap();
+    private final ConcurrentMap<Integer, Byte> sleepingAndRiptideData = new ConcurrentHashMap<>();
+    private final ConcurrentMap<Integer, Byte> playerEntityFlags = new ConcurrentHashMap<>();
+// Solar end
     private int latestTradeWindowId;
     private boolean forceSendCenterChunk = true;
     private int chunkCenterX, chunkCenterZ;

@@ -1,8 +1,6 @@
 dependencies {
     implementation(projects.viaversionCommon)
-    compileOnly(libs.legacyBukkit) {
-        exclude("junit", "junit")
-        exclude("com.google.code.gson", "gson")
-        exclude("javax.persistence", "persistence-api")
-    }
+// Solar start
+    compileOnly(libs.legacyBukkit)
+// Solar end
 }

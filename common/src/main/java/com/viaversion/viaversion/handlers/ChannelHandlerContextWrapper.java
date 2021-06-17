@@ -275,4 +275,11 @@ public class ChannelHandlerContextWrapper implements ChannelHandlerContext {
     public <T> Attribute<T> attr(AttributeKey<T> attributeKey) {
         return base.attr(attributeKey);
     }
+
+    // Solar start
+    @Override
+    public <T> boolean hasAttr(AttributeKey<T> attributeKey) {
+        return base.hasAttr(attributeKey);
+    }
+    // Solar end
 }

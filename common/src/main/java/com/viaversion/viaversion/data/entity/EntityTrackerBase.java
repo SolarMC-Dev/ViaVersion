@@ -26,11 +26,14 @@ import com.viaversion.viaversion.api.data.entity.StoredEntityData;
 import com.viaversion.viaversion.api.minecraft.entities.EntityType;
 import it.unimi.dsi.fastutil.ints.Int2ObjectMap;
 import org.checkerframework.checker.nullness.qual.Nullable;
-import space.vectrix.flare.fastutil.Int2ObjectSyncMap;
+import java.util.concurrent.ConcurrentMap;
+import java.util.concurrent.ConcurrentHashMap;
 
 public class EntityTrackerBase implements EntityTracker, ClientEntityIdChangeListener {
-    private final Int2ObjectMap<EntityType> entityTypes = Int2ObjectSyncMap.hashmap();
-    private final Int2ObjectMap<StoredEntityData> entityData;
+// Solar start - don't use flare library
+    private final ConcurrentMap<Integer, EntityType> entityTypes = new ConcurrentHashMap<>();
+    private final ConcurrentMap<Integer, StoredEntityData> entityData;
+// Solar end
     private final UserConnection connection;
     private final EntityType playerType;
     private int clientEntityId = -1;
@@ -45,7 +48,7 @@ public class EntityTrackerBase implements EntityTracker, ClientEntityIdChangeLis
     public EntityTrackerBase(UserConnection connection, @Nullable EntityType playerType, boolean storesEntityData) {
         this.connection = connection;
         this.playerType = playerType;
-        this.entityData = storesEntityData ? Int2ObjectSyncMap.hashmap() : null;
+        this.entityData = storesEntityData ? new ConcurrentHashMap<>() : null; // Solar
     }
 
     @Override

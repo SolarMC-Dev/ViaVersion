@@ -10,8 +10,7 @@ import java.io.ByteArrayOutputStream
 
 fun Project.publishShadowJar() {
     configurePublication {
-        artifact(tasks["shadowJar"])
-        artifact(tasks["sourcesJar"])
+        from(components["java"])
     }
 }
 

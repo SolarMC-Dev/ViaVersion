@@ -58,8 +58,8 @@ public class ViaVersionPlugin extends JavaPlugin implements ViaPlatform<Player> 
     private final ViaAPI<Player> api = new BukkitViaAPI(this);
     private final List<Runnable> queuedTasks = new ArrayList<>();
     private final List<Runnable> asyncQueuedTasks = new ArrayList<>();
-    private final boolean protocolSupport;
-    private boolean compatSpigotBuild;
+    private static final boolean protocolSupport = false; // Solar start - set false
+    private static final boolean compatSpigotBuild = false; // Solar end
     private boolean spigot = true;
     private boolean lateBind;
 
@@ -83,7 +83,17 @@ public class ViaVersionPlugin extends JavaPlugin implements ViaPlatform<Player> 
         conf = new BukkitViaConfig();
 
         // Check if we're using protocol support too
-        protocolSupport = Bukkit.getPluginManager().getPlugin("ProtocolSupport") != null;
+        // Solar start
+        boolean protocolSupport = getServer().getPluginManager().getPlugin("ProtocolSupport") != null;
+        if (protocolSupport) {
+            throw new IllegalStateException( //getLogger().info("Hooking into ProtocolSupport, to prevent issues!");
+                    "ProtocolSupport found. Not compatible with Solar version of ViaVersion"); /* try {
+                BukkitViaInjector.patchLists();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        */ // Solar end
+        }
     }
 
     @Override
@@ -99,8 +109,8 @@ public class ViaVersionPlugin extends JavaPlugin implements ViaPlatform<Player> 
             spigot = false;
         }
 
-        // Check if it's a spigot build with a protocol mod
-        try {
+        // Solar start - disable
+        /* try {
             NMSUtil.nms(
                     "PacketEncoder",
                     "net.minecraft.network.PacketEncoder"
@@ -108,7 +118,7 @@ public class ViaVersionPlugin extends JavaPlugin implements ViaPlatform<Player> 
             compatSpigotBuild = true;
         } catch (Exception e) {
             compatSpigotBuild = false;
-        }
+        } */ // Solar end
 
         if (getServer().getPluginManager().getPlugin("ViaBackwards") != null) {
             MappingDataLoader.enableMappingsCache();

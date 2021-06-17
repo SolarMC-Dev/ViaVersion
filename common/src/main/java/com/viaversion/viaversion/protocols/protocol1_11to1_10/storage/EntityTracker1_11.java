@@ -21,10 +21,11 @@ import com.viaversion.viaversion.api.connection.UserConnection;
 import com.viaversion.viaversion.api.minecraft.entities.Entity1_11Types.EntityType;
 import com.viaversion.viaversion.data.entity.EntityTrackerBase;
 import it.unimi.dsi.fastutil.ints.IntSet;
-import space.vectrix.flare.fastutil.Int2ObjectSyncMap;
+import java.util.Set;
+import java.util.concurrent.ConcurrentHashMap;
 
 public class EntityTracker1_11 extends EntityTrackerBase {
-    private final IntSet holograms = Int2ObjectSyncMap.hashset();
+    private final Set<Integer> holograms = ConcurrentHashMap.newKeySet(); // Solar - don't use flare library
 
     public EntityTracker1_11(UserConnection user) {
         super(user, EntityType.PLAYER);

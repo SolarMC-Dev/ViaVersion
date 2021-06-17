@@ -4,26 +4,27 @@ metadata.format.version = "1.1"
 
 adventure = "4.9.1"
 gson = "2.8.8"
-fastutil = "8.5.6"
-flare = "2.0.0"
+fastutil = "8.5.2"
 openNBT = "2.0-SNAPSHOT"
 javassist = "3.28.0-GA"
 
 # Common provided
-netty = "4.0.20.Final"
-guava = "17.0"
-snakeYaml = "1.18"
+netty = "4.1.24.Final"
+guava = "30.1.1-jre"
+snakeYaml = "1.28"
+caffeine = "3.0.3"
 
 junit = "5.7.2"
 checkerQual = "3.18.0"
 
 # Platforms
+solarpaper = "1.2.0"
 paper = "1.16.5-R0.1-SNAPSHOT"
 legacyBukkit = "1.8.8-R0.1-SNAPSHOT"
 bungee = "1.16-R0.5-SNAPSHOT"
 sponge = "5.0.0"
 legacySponge = "4.0.0"
-velocity = "3.0.0-SNAPSHOT"
+velocity = "3.0.2"
 
 
 [libraries]
@@ -35,25 +36,28 @@ adventureTextSerializerLegacy = { group = "net.kyori", name = "adventure-text-se
 
 gson = { group = "com.google.code.gson", name = "gson", version.ref = "gson" }
 fastutil = { group = "it.unimi.dsi", name = "fastutil", version.ref = "fastutil" }
-flare = { group = "space.vectrix.flare", name = "flare", version.ref = "flare" }
-flareFastutil = { group = "space.vectrix.flare", name = "flare-fastutil", version.ref = "flare" }
+# Solar start - remove dangerous flare
+# flare = { group = "space.vectrix.flare", name = "flare", version.ref = "flare" }
+# flareFastutil = { group = "space.vectrix.flare", name = "flare-fastutil", version.ref = "flare" }
+# Solar end
 openNBT = { group = "com.viaversion", name = "opennbt", version.ref = "openNBT" }
 javassist = { group = "org.javassist", name = "javassist", version.ref = "javassist" }
 
 netty = { group = "io.netty", name = "netty-all", version.ref = "netty" }
 guava = { group = "com.google.guava", name = "guava", version.ref = "guava" }
 snakeYaml = { group = "org.yaml", name = "snakeyaml", version.ref = "snakeYaml" }
+caffeine = { group = "com.github.ben-manes.caffeine", name = "caffeine", version.ref = "caffeine" }
 
 jupiterApi = { group = "org.junit.jupiter", name = "junit-jupiter-api", version.ref = "junit" }
 jupiterEngine = { group = "org.junit.jupiter", name = "junit-jupiter-engine", version.ref = "junit" }
 checkerQual = { group = "org.checkerframework", name = "checker-qual", version.ref = "checkerQual" }
 
-paper = { group = "com.destroystokyo.paper", name = "paper-api", version.ref = "paper" }
-legacyBukkit = { group = "org.bukkit", name = "bukkit", version.ref = "legacyBukkit" }
+paper = { group = "gg.solarmc.paper", name = "solarpaper-server", version.ref = "solarpaper" }
+legacyBukkit = { group = "gg.solarmc.paper", name = "solarpaper-api", version.ref = "solarpaper" }
 bungee = { group = "net.md-5", name = "bungeecord-api", version.ref = "bungee" }
 sponge = { group = "org.spongepowered", name = "spongeapi", version.ref = "sponge" }
 legacySponge = { group = "org.spongepowered", name = "spongeapi", version.ref = "legacySponge" }
-velocity = { group = "com.velocitypowered", name = "velocity-api", version.ref = "velocity" }
+velocity = { group = "gg.solarmc.velocity", name = "velocity-api", version.ref = "velocity" }
 
 
 [bundles]

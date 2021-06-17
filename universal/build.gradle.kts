@@ -6,9 +6,11 @@ plugins {
 
 val platforms = setOf(
     rootProject.projects.viaversionBukkit,
+/* Solar start
     rootProject.projects.viaversionBungee,
     rootProject.projects.viaversionFabric,
     rootProject.projects.viaversionSponge,
+*/ // Solar end
     rootProject.projects.viaversionVelocity
 ).map { it.dependencyProject }
 
@@ -28,14 +30,4 @@ tasks {
     build {
         dependsOn(shadowJar)
     }
-    sourcesJar {
-        rootProject.subprojects.forEach { subproject ->
-            if (subproject == project) return@forEach
-            val platformSourcesJarTask = subproject.tasks.findByName("sourcesJar") as? Jar ?: return@forEach
-            dependsOn(platformSourcesJarTask)
-            from(zipTree(platformSourcesJarTask.archiveFile))
-        }
-    }
 }
-
-publishShadowJar()

@@ -7,55 +7,41 @@ plugins {
     id("com.github.johnrengelman.shadow")
 }
 
+// Solar start
+val jar = tasks.named<Jar>("jar") {
+    archiveClassifier.set("unshaded")
+    from(project.rootProject.file("LICENSE"))
+}
+val shadowJar = tasks.named<ShadowJar>("shadowJar") {
+    archiveClassifier.set("")
+    configureRelocations()
+}
 tasks {
-    named<Jar>("jar") {
-        archiveClassifier.set("unshaded")
-        from(project.rootProject.file("LICENSE"))
-    }
-    val shadowJar = named<ShadowJar>("shadowJar") {
-        archiveClassifier.set("")
-        configureRelocations()
-        configureExcludes()
-    }
     named("build") {
         dependsOn(shadowJar)
     }
 }
+artifacts {
+    archives(shadowJar.get().archiveFile) {
+        classifier = ""
+        builtBy(shadowJar)
+    }
+    archives(jar.get().archiveFile) {
+        classifier = "unshaded"
+        builtBy(jar)
+    }
+}
+// Gradle module metadata points to the unshaded jar, whereas Maven uses the default classifier
+// Disble it to prevent issues
+tasks.withType<GenerateModuleMetadata> {
+    enabled = false
+}
+// Solar end
 
 publishShadowJar()
 
+// Solar start - shade only opennbt
 fun ShadowJar.configureRelocations() {
-    relocate("javassist", "com.viaversion.viaversion.libs.javassist")
-    relocate("com.google.gson", "com.viaversion.viaversion.libs.gson")
     relocate("com.github.steveice10.opennbt", "com.viaversion.viaversion.libs.opennbt")
-    relocate("it.unimi.dsi.fastutil", "com.viaversion.viaversion.libs.fastutil")
-    relocate("space.vectrix.flare", "com.viaversion.viaversion.libs.flare")
 }
-
-fun ShadowJar.configureExcludes() {
-    // FastUtil - we only want object and int maps
-    // Object types
-    exclude("it/unimi/dsi/fastutil/*/*Reference*")
-    exclude("it/unimi/dsi/fastutil/*/*Boolean*")
-    exclude("it/unimi/dsi/fastutil/*/*Byte*")
-    exclude("it/unimi/dsi/fastutil/*/*Short*")
-    exclude("it/unimi/dsi/fastutil/*/*Float*")
-    exclude("it/unimi/dsi/fastutil/*/*Double*")
-    exclude("it/unimi/dsi/fastutil/*/*Long*")
-    exclude("it/unimi/dsi/fastutil/*/*Char*")
-    // Map types
-    exclude("it/unimi/dsi/fastutil/*/*Custom*")
-    exclude("it/unimi/dsi/fastutil/*/*Tree*")
-    exclude("it/unimi/dsi/fastutil/*/*Heap*")
-    exclude("it/unimi/dsi/fastutil/*/*Queue*")
-    // Crossing fingers
-    exclude("it/unimi/dsi/fastutil/*/*Big*")
-    exclude("it/unimi/dsi/fastutil/*/*Synchronized*")
-    exclude("it/unimi/dsi/fastutil/*/*Unmodifiable*")
-    exclude("it/unimi/dsi/fastutil/io/*")
-    // Flare - only need int maps
-    exclude("space/vectrix/flare/fastutil/*Double*")
-    exclude("space/vectrix/flare/fastutil/*Float*")
-    exclude("space/vectrix/flare/fastutil/*Long*")
-    exclude("space/vectrix/flare/fastutil/*Short*")
-}
+// Solar end

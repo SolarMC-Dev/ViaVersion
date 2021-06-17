@@ -21,9 +21,15 @@ tasks {
 }
 
 java {
-    javaTarget(8)
+    javaTarget(16) // Solar
     withSourcesJar()
 }
+
+// Solar start
+tasks.named<JavaCompile>("compileJava") {
+    options.release.set(16)
+}
+// Solar end
 
 publishing {
     publications.create<MavenPublication>("mavenJava") {
@@ -32,11 +38,21 @@ publishing {
         version = rootProject.version as String
     }
     repositories.maven {
+// Solar start
+        credentials {
+            username = System.getenv("REPO_USER")
+            password = System.getenv("REPO_PASS")
+        }
+
+        name = "solar-repo"
+        url = uri("https://maven.cloudsmith.io/solarmc/oss-gpl3")
+/*
         name = "Via"
         url = uri("https://repo.viaversion.com/")
         credentials(PasswordCredentials::class)
         authentication {
             create<BasicAuthentication>("basic")
         }
+*/ // Solar end
     }
 }

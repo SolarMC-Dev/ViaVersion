@@ -1,5 +1,8 @@
+import com.github.jengelman.gradle.plugins.shadow.tasks.ShadowJar // Solar
+
 plugins {
     id("net.kyori.blossom")
+    id("via.shadow-conventions") // Solar
 }
 
 blossom {
@@ -10,7 +13,16 @@ blossom {
 dependencies {
     api(projects.viaversionApi)
     api(projects.viaversionApiLegacy)
+    compileOnly(libs.caffeine) // Solar
 }
+
+// Solar start
+tasks.named<ShadowJar>("shadowJar") {
+    dependencies {
+        include(dependency("nothing:nothing:.*"))
+    }
+}
+// Solar end
 
 java {
     withJavadocJar()

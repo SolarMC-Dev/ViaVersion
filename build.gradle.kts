@@ -6,23 +6,28 @@ plugins {
 }
 
 allprojects {
-    group = "com.viaversion"
+    group = "gg.solarmc.viaversion" // Solar
     version = property("projectVersion") as String // from gradle.properties
     description = "Allow newer clients to join older server versions."
 }
 
 val platforms = setOf(
     projects.viaversionBukkit,
+/* Solar start
     projects.viaversionBungee,
     projects.viaversionFabric,
     projects.viaversionSponge,
+*/ // Solar end
     projects.viaversionVelocity
 ).map { it.dependencyProject }
 
 val special = setOf(
     projects.viaversion,
     projects.viaversionApi,
-    projects.adventure
+// Solar start
+    projects.viaversionCommon
+//    projects.adventure
+// Solar end
 ).map { it.dependencyProject }
 
 subprojects {

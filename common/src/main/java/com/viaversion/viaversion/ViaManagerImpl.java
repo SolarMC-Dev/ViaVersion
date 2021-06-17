@@ -58,7 +58,7 @@ public class ViaManagerImpl implements ViaManager {
     private final Set<String> subPlatforms = new HashSet<>();
     private List<Runnable> enableListeners = new ArrayList<>();
     private PlatformTask mappingLoadingTask;
-    private boolean debug;
+    private boolean debug = org.slf4j.LoggerFactory.getLogger(getClass()).isDebugEnabled();
 
     public ViaManagerImpl(ViaPlatform<?> platform, ViaInjector injector, ViaCommandHandler commandHandler, ViaPlatformLoader loader) {
         this.platform = platform;

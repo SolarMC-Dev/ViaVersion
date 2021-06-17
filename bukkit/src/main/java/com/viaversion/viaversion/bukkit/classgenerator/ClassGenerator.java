@@ -23,6 +23,7 @@ import com.viaversion.viaversion.bukkit.handlers.BukkitEncodeHandler;
 import com.viaversion.viaversion.bukkit.util.NMSUtil;
 import com.viaversion.viaversion.classgenerator.generated.BasicHandlerConstructor;
 import com.viaversion.viaversion.classgenerator.generated.HandlerConstructor;
+/* Solar start
 import javassist.CannotCompileException;
 import javassist.ClassPool;
 import javassist.CtClass;
@@ -44,19 +45,25 @@ import org.bukkit.plugin.Plugin;
 import org.checkerframework.checker.nullness.qual.NonNull;
 
 import java.lang.reflect.Method;
+*/ // Solar end
 
 //TODO maybe clean this up a bit 👀
 public final class ClassGenerator {
+/* Solar start
     private static final boolean useModules = hasModuleMethod();
+*/ // Solar end
     private static HandlerConstructor constructor = new BasicHandlerConstructor();
     private static String psPackage;
+/* Solar start
     private static Class psConnectListener;
+*/ // Solar end
 
     public static HandlerConstructor getConstructor() {
         return constructor;
     }
 
     public static void generate() {
+/* Solar start
         if (ViaVersionPlugin.getInstance().isCompatSpigotBuild() || ViaVersionPlugin.getInstance().isProtocolSupport()) {
             try {
                 ClassPool pool = ClassPool.getDefault();
@@ -246,9 +253,11 @@ public final class ClassGenerator {
             e.printStackTrace();
         }
         return null;
+*/ // Solar end
     }
 
     public static void registerPSConnectListener(ViaVersionPlugin plugin) {
+/* Solar start
         if (psConnectListener != null) {
             try {
                 Class<? extends Event> connectionOpenEvent = (Class<? extends Event>) Class.forName("protocolsupport.api.events.ConnectionOpenEvent");
@@ -359,5 +368,6 @@ public final class ClassGenerator {
         public String methodName() {
             return methodName;
         }
+*/ // Solar end
     }
 }

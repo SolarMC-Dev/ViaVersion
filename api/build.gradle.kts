@@ -1,3 +1,5 @@
+import com.github.jengelman.gradle.plugins.shadow.tasks.ShadowJar // Solar
+
 plugins {
     id("net.kyori.blossom")
     id("via.shadow-conventions")
@@ -9,20 +11,26 @@ blossom {
 }
 
 dependencies {
-    api(projects.adventure) {
-        targetConfiguration = "shadow"
-    }
-    api(libs.fastutil)
-    api(libs.flare)
-    api(libs.flareFastutil)
+    api(libs.bundles.adventure) // Solar
+    compileOnlyApi(libs.fastutil) // Solar - compileOnlyApi
     api(libs.openNBT)
-    api(libs.gson)
+    compileOnlyApi(libs.gson) // Solar - compileOnlyApi
+    compileOnlyApi("org.slf4j:slf4j-api:1.7.30") // Solar - add slf4j
 
     compileOnlyApi(libs.snakeYaml)
     compileOnlyApi(libs.netty)
     compileOnlyApi(libs.guava)
     compileOnlyApi(libs.checkerQual)
 }
+
+
+// Solar start
+tasks.named<ShadowJar>("shadowJar") {
+    dependencies {
+        include(dependency(":opennbt:.*"))
+    }
+}
+// Solar end
 
 java {
     withJavadocJar()

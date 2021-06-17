@@ -41,25 +41,28 @@ import com.viaversion.viaversion.protocols.protocol1_9to1_8.providers.BossBarPro
 import com.viaversion.viaversion.protocols.protocol1_9to1_8.providers.EntityIdProvider;
 import it.unimi.dsi.fastutil.ints.Int2ObjectMap;
 import it.unimi.dsi.fastutil.ints.IntSet;
-import space.vectrix.flare.fastutil.Int2ObjectSyncMap;
 
 import java.util.*;
 import java.util.concurrent.TimeUnit;
+import java.util.concurrent.ConcurrentMap;
+import java.util.concurrent.ConcurrentHashMap;
 
 public class EntityTracker1_9 extends EntityTrackerBase {
     public static final String WITHER_TRANSLATABLE = "{\"translate\":\"entity.WitherBoss.name\"}";
     public static final String DRAGON_TRANSLATABLE = "{\"translate\":\"entity.EnderDragon.name\"}";
-    private final Int2ObjectMap<UUID> uuidMap = Int2ObjectSyncMap.hashmap();
-    private final Int2ObjectMap<List<Metadata>> metadataBuffer = Int2ObjectSyncMap.hashmap();
-    private final Int2ObjectMap<Integer> vehicleMap = Int2ObjectSyncMap.hashmap();
-    private final Int2ObjectMap<BossBar> bossBarMap = Int2ObjectSyncMap.hashmap();
-    private final IntSet validBlocking = Int2ObjectSyncMap.hashset();
-    private final Set<Integer> knownHolograms = Int2ObjectSyncMap.hashset();
+// Solar start - remove flare library
+    private final ConcurrentMap<Integer, UUID> uuidMap = new ConcurrentHashMap<>();
+    private final ConcurrentMap<Integer, List<Metadata>> metadataBuffer = new ConcurrentHashMap<>();
+    private final ConcurrentMap<Integer, Integer> vehicleMap = new ConcurrentHashMap<>();
+    private final ConcurrentMap<Integer, BossBar> bossBarMap = new ConcurrentHashMap<>();
+    private final Set<Integer> validBlocking = ConcurrentHashMap.newKeySet();
+    private final Set<Integer> knownHolograms = ConcurrentHashMap.newKeySet();
     private final Set<Position> blockInteractions = Collections.newSetFromMap(CacheBuilder.newBuilder()
             .maximumSize(1000)
             .expireAfterAccess(250, TimeUnit.MILLISECONDS)
             .<Position, Boolean>build()
             .asMap());
+// Solar end
     private boolean blocking = false;
     private boolean autoTeam = false;
     private Position currentlyDigging = null;

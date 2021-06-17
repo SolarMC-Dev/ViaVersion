@@ -32,16 +32,20 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.entity.EntityToggleGlideEvent;
 import org.bukkit.potion.PotionEffectType;
 
+import java.lang.invoke.MethodHandle;
+import java.lang.invoke.MethodHandles;
+import java.lang.reflect.Method;
 import java.util.Arrays;
 
 public class EntityToggleGlideListener extends ViaBukkitListener {
 
     private boolean swimmingMethodExists;
+    private Method swimmingMethod; // Solar - use reflection
 
     public EntityToggleGlideListener(ViaVersionPlugin plugin) {
         super(plugin, Protocol1_15To1_14_4.class);
         try {
-            Player.class.getMethod("isSwimming");
+            swimmingMethod = Player.class.getMethod("isSwimming"); // Solar
             swimmingMethodExists = true;
         } catch (NoSuchMethodException ignored) {
         }
@@ -72,7 +76,7 @@ public class EntityToggleGlideListener extends ViaBukkitListener {
                 if (player.isSprinting()) {
                     bitmask |= 0x08;
                 }
-                if (swimmingMethodExists && player.isSwimming()) {
+                if (swimmingMethodExists && ((boolean) swimmingMethod.invoke(player))) { // Solar - use reflection
                     bitmask |= 0x10;
                 }
                 if (player.hasPotionEffect(PotionEffectType.INVISIBILITY)) {
