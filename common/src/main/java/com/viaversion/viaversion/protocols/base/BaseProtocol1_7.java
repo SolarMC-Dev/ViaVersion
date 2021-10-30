@@ -148,7 +148,7 @@ public class BaseProtocol1_7 extends AbstractProtocol {
 
                         if (Via.getManager().isDebug()) {
                             // Print out the route to console
-                            Via.getPlatform().getLogger().log(Level.INFO, "{0} logged in with protocol {1}, Route: {2}",
+                            Via.getPlatform().getLogger().log(Level.FINE, "{0} logged in with protocol {1}, Route: {2}", // Solar - proper log level
                                     new Object[]{
                                             username,
                                             info.getProtocolVersion(),

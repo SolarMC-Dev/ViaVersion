@@ -130,7 +130,7 @@ public class ProtocolPipelineImpl extends AbstractSimpleProtocol implements Prot
         String actualUsername = packetWrapper.user().getProtocolInfo().getUsername();
         String username = actualUsername != null ? actualUsername + " " : "";
 
-        platform.getLogger().log(Level.INFO, "{0}{1} {2}: {3} (0x{4}) -> {5} (0x{6}) [{7}] {8}",
+        platform.getLogger().log(Level.FINE, "{0}{1} {2}: {3} (0x{4}) -> {5} (0x{6}) [{7}] {8}", // Solar - proper log level
                 new Object[]{
                         username,
                         direction,
